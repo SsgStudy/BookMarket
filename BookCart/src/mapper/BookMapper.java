@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import vo.Book;
+import vo.CartElement;
 
 public class BookMapper {
     private Map<String, Book> books = new HashMap<>();
-    private Map<String, List<String>> cart = new HashMap<>();
+    private Map<String, List<CartElement>> cart = new HashMap<>();
 
     public BookMapper() {
         books.put("ISBN1234", new Book("ISBN1234", "쉽게 배우는 JSP 웹 프로그래밍", 27000, "송미영", "단계별로 쇼핑몰을 구현하며 배우는 JSP 웹 프로그래밍", "IT전문서", "2018/10/08"));
@@ -18,13 +19,25 @@ public class BookMapper {
 
     // 장바구니에 도서 담기
     public void save(String userId, String bookId) {
-        List<String> userCart = cart.get(userId);
+        List<CartElement> userCart = cart.get(userId);
+        boolean flag = false;
 
         if (userCart == null) {
             userCart = new ArrayList<>();
             cart.put(userId, userCart);
         }
-        cart.get(userId).add(bookId);
+        for (int i = 0; i < userCart.size(); i++) {
+            if(userCart.get(i).getBook().getBookId().equals(bookId))
+            {
+                flag = true;
+                cart.get(userId).get(i).plusAmount();
+                break;
+            }
+        }
+        if(flag == false)
+        {
+            cart.get(userId).add(new CartElement(books.get(bookId)));
+        }
     }
 
     // 모든 도서 조회
@@ -38,7 +51,13 @@ public class BookMapper {
     }
 
     // userId로 User 장바구니 조회
-    public List<String> findCartByUserId(String userId) {
+    public List<CartElement> findCartByUserId(String userId) {
         return cart.get(userId);
+    }
+
+    public void clear(String userId)
+    {
+        List<CartElement> userCart = cart.get(userId);
+        userCart.clear();
     }
 }
