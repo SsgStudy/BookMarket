@@ -2,7 +2,7 @@ package vo;
 
 public class CartElement {
     private Book book;
-    private int amount=0;
+    private int amount;
 
     public CartElement(Book book) {
         this.book = book;
