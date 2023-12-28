@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import mapper.BookMapper;
 import vo.Book;
+import vo.CartElement;
 
 public class BookService {
     private BookMapper bookMapper = new BookMapper();
@@ -45,18 +46,26 @@ public class BookService {
     }
 
     // User 장바구니 조회
-    public List<Book> getUserCart(String userId) {
-        List<String> bookIdList = bookMapper.findCartByUserId(userId);
+    public List<CartElement> getUserCart(String userId) {
+        List<CartElement> bookList = bookMapper.findCartByUserId(userId);
 
-        if (bookIdList == null) {
+        if (bookList == null) {
             System.out.println("장바구니가 비어있습니다.");
             return new ArrayList<>();
         }
 
-        List<Book> returnBookList = new ArrayList<>();
-        for (String bookId: bookIdList)
-            returnBookList.add(bookMapper.findByBookId(bookId));
+        List<CartElement> returnBookList = new ArrayList<>();
+        for (CartElement book: bookList)
+        {
+            returnBookList.add(book);
+        }
 
         return returnBookList;
+    }
+
+    public void clearAll(String userId)
+    {
+        bookMapper.clear(userId);
+        System.out.println("장바구니를 비웠습니다.");
     }
 }

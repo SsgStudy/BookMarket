@@ -1,7 +1,9 @@
+import java.util.List;
 import java.util.Scanner;
 import service.AdminService;
 import service.BookService;
 import service.UserService;
+import vo.CartElement;
 import vo.User;
 
 public class BookMain {
@@ -35,18 +37,28 @@ public class BookMain {
                 case 1 -> //고객 정보 확인하기
                         userService.menuGuestInfo(user1);
                 case 2 ->  //장바구니 상품 목록 보기
-                        bookService.getUserCart(user1.getId()).stream()
-                                .forEach(book -> System.out.println(book));
-                case 3 -> { //바구니에 항목 추가하기
+                {
+                    List<CartElement> list1 = bookService.getUserCart(user1.getId());
+                    for (CartElement cartElement : list1) {
+                        System.out.println(cartElement);
+                    }
+
+                }
+                case 3 -> // 장바구니 항목 비우기
+                        bookService.clearAll(user1.getId());
+                case 4 -> { //바구니에 항목 추가하기
                     bookService.getAllBooks();
                     bookService.addBook(user1.getId());
                 }
-                case 4 ->  // 관리자 로그인
-                        adminService.menuAdminLogin();
-                case 5 -> { // 종료
+                case 5 -> System.out.println("장바구니 수량 줄이기");
+                case 6 -> System.out.println("장바구니 항목 삭제하기");
+                case 7 -> System.out.println("영수증 표시하기");
+                case 8 -> { // 종료
                     System.out.println("종료되었습니다.");
                     return;
                 }
+                case 9 ->  // 관리자 로그인
+                        adminService.menuAdminLogin();
                 default -> System.out.println("다시 입력해주세요.");
             }
         }
@@ -62,9 +74,12 @@ public class BookMain {
         System.out.println("***********************************");
         System.out.println("1. 고객 정보 확인하기");
         System.out.println("2. 장바구니 상품 목록 보기");
-        System.out.println("3. 바구니에 항목 추가하기");
-        System.out.println("4. 관리자 로그인");
-        System.out.println("5. 종료");
+        System.out.println("3. 장바구니 항목 비우기");
+        System.out.println("4. 바구니에 항목 추가하기");
+        System.out.println("5. 장바구니 수량 줄이기");
+        System.out.println("6. 장바구니 항목 삭제하기");
+        System.out.println("7. 영수증 표시하기");
+        System.out.println("8. 종료");
         System.out.println("***********************************");
     }
 }
