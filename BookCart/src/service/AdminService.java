@@ -1,7 +1,8 @@
 package service;
 
 import java.util.Scanner;
-import vo.Admin;
+import entity.Admin;
+import entity.Person;
 
 public class AdminService{
 
@@ -15,7 +16,7 @@ public class AdminService{
         System.out.print("비밀번호 : ");
         String adminPw = sc.next();
 
-        Admin admin = new Admin("jang", "01012346578");
+        Person admin = new Admin.Builder("Admin", "Admin1234", "jang", "01012345678").build();
 
         if (adminId.equals(admin.getId()) && adminPw.equals(admin.getPassword())) {
             System.out.println("\n로그인 성공");
