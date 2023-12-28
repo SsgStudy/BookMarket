@@ -1,4 +1,4 @@
-package vo;
+package entity;
 
 public class Book {
     private String bookId;

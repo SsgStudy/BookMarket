@@ -4,7 +4,7 @@ import service.AdminService;
 import service.BookService;
 import service.UserService;
 import vo.CartElement;
-import vo.User;
+import entity.User;
 
 public class BookMain {
     static Scanner sc = new Scanner(System.in);
@@ -14,15 +14,7 @@ public class BookMain {
         BookService bookService = new BookService();
         AdminService adminService = new AdminService();
 
-        //고객 정보 입력
-        System.out.print("당신의 이름을 입력하세요 : ");
-        String name = sc.nextLine();
-        System.out.print("연락처를 입력하세요 : ");
-        String phoneNumber = sc.nextLine();
-
-        //customer1 고객 객체 생성 & 기입
-        User user1 = new User(name, phoneNumber);
-        userService.join(user1);
+        String user1 = userService.join();
 
         // 실행 문구
         printWelcome();
@@ -37,18 +29,12 @@ public class BookMain {
                 case 1 -> //고객 정보 확인하기
                         userService.menuGuestInfo(user1);
                 case 2 ->  //장바구니 상품 목록 보기
-                {
-                    List<CartElement> list1 = bookService.getUserCart(user1.getId());
-                    for (CartElement cartElement : list1) {
-                        System.out.println(cartElement);
-                    }
-
-                }
+                    bookService.getUserCart(user1);
                 case 3 -> // 장바구니 항목 비우기
-                        bookService.clearAll(user1.getId());
+                        bookService.clearAll(user1);
                 case 4 -> { //바구니에 항목 추가하기
                     bookService.getAllBooks();
-                    bookService.addBook(user1.getId());
+                    bookService.addBook(user1);
                 }
                 case 5 -> System.out.println("장바구니 수량 줄이기");
                 case 6 -> System.out.println("장바구니 항목 삭제하기");
