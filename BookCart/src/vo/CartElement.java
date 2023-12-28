@@ -1,28 +1,18 @@
 package vo;
 
 public class CartElement {
-    private Book book;
+    private String bookId;
     private int amount;
 
-    public CartElement(Book book) {
-        this.book = book;
-        this.amount++;
+    public CartElement(String bookId, int amount) {
+        this.bookId = bookId;
+        this.amount = amount;
     }
 
-    public Book getBook() {
-        return book;
+    public String getBookId() {
+        return bookId;
     }
-
     public int getAmount() {
         return amount;
-    }
-
-    public void plusAmount()
-    {
-        this.amount++;
-    }
-
-    public String toString() {
-        return (getBook() + "" + getAmount() + "권");
     }
 }
